@@ -1,0 +1,28 @@
+SELECT * FROM biodata;
+-- SELECT * FROM employee;
+-- SELECT * FROM contact_person;
+-- SELECT * FROM leave;
+-- SELECT * FROM employee_leave;
+-- SELECT * FROM leave_request;
+-- SELECT * FROM travel_type;
+-- SELECT * FROM travel_request;
+-- SELECT * FROM travel_settlement;
+-- SELECT * FROM position;
+-- SELECT * FROM employee_position;
+-- SELECT * FROM department;
+SELECT * FROM family;
+
+//NO1
+SELECT 
+CONCAT (biodata.first_name,'  ',biodata.last_name) AS fullname,
+position.name AS jabatan,
+date_part('year',age(dob))
+
+FROM biodata
+INNER JOIN position ON biodata.id = position.id
+
+//NO2
+
+
+
+

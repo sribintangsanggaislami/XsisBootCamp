@@ -1,0 +1,199 @@
+CREATE TABLE Jurusan (
+	ID Serial NOT NULL,
+	Kode_Jurusan CHAR (5) NOT NULL,
+	Nama_Jurusan VARCHAR (50) NOT NULL,
+	Status_Jurusan VARCHAR (100) NOT NULL,
+	PRIMARY KEY(Kode_Jurusan)
+);
+
+CREATE TABLE Agama (
+	ID Serial NOT NULL,
+	Kode_Agama CHAR (5),
+	Deskripsi VARCHAR (20),
+	PRIMARY KEY(Kode_Agama)
+);
+
+CREATE TABLE Mahasiswa (
+	ID Serial NOT NULL,
+	Kode_Mahasiswa CHAR (5) NOT NULL,
+	Nama_Mahasiswa VARCHAR (100) NOT NULL,
+	Alamat VARCHAR (200) NOT NULL,
+	Kode_Agama CHAR (5) NOT NULL,
+	Kode_Jurusan CHAR (5) NOT NULL,
+	PRIMARY KEY(Kode_Mahasiswa)
+);
+
+CREATE TABLE Ujian (
+	ID Serial NOT NULL,
+	Kode_Ujian CHAR (5) NOT NULL,
+	Nama_Ujian VARCHAR (50) NOT NULL,
+	Status_Ujian VARCHAR (100) NOT NULL,
+	PRIMARY KEY(Kode_Ujian)
+);
+
+CREATE TABLE Type_Dosen (
+	ID Serial NOT NULL,
+	Kode_Type_Dosen CHAR (5) NOT NULL,
+	Deskripsi VARCHAR (20),
+	PRIMARY KEY(Kode_Type_Dosen)
+);
+
+CREATE TABLE Dosen (
+	ID Serial NOT NULL,
+	Kode_Dosen CHAR (5),
+	Nama_Dosen VARCHAR (100),
+	Kode_Jurusan CHAR (5),
+	Kode_Type_Dosen CHAR (5),
+	PRIMARY KEY(Kode_Dosen)
+);
+
+CREATE TABLE Nilai (
+	ID Serial NOT NULL,
+	Kode_Mahasiswa CHAR (5),
+	Kode_Ujian CHAR (5),
+	Nilai DECIMAL (8,2),
+	PRIMARY KEY(ID)
+);
+
+INSERT INTO Jurusan VALUES
+(1, 'J001', 'Teknik Informatika', 'Aktif'),
+(2, 'J002', 'Management Informatika', 'Aktif'),
+(3, 'J003', 'Sistem Informasi',	'Non Aktif'),
+(4, 'J004', 'Sistem Komputer', 'Aktif'),
+(5, 'J005', 'Komputer Akuntansi', 'Non Aktif');
+
+INSERT INTO Agama VALUES
+(1, 'A001', 'Islam'),
+(2, 'A002', 'Kristen'),
+(3, 'A003', 'Katolik'),
+(4, 'A004', 'Hindu'),
+(5, 'A005', 'Budha');
+
+INSERT INTO Mahasiswa VALUES
+(1, 'M001', 'Budi Gunawan', 'Jl. Mawar No 3 RT 05 Cicalengka, Bandung', 'A001', 'J001'),
+(2, 'M002', 'Rinto Raharjo', 'Jl. Kebagusan No. 33 RT04 RW06 Bandung', 'A002', 'J002'),
+(3, 'M003', 'Asep Saepudin', 'Jl. Sumatera No. 12 RT02 RW01, Ciamis', 'A001', 'J003'),
+(4, 'M004', 'M. Hafif Isbullah', 'Jl. Jawa No 01 RT01 RW01, Jakarta Pusat', 'A001', 'J001'),
+(5, 'M005', 'Cahyono', 'Jl. Niagara No. 54 RT01 RW09, Surabaya', 'A003', 'J002');
+
+INSERT INTO Ujian VALUES
+(1, 'U0001', 'Algoritma', 'Aktif'),
+(2, 'U0002', 'Aljabar', 'Aktif'),
+(3, 'U0003', 'Statistika', 'Non Aktif'),
+(4, 'U0004', 'Etika Profesi', 'Non Aktif'),
+(5, 'U0005', 'Bahasa Inggris', 'Aktif');
+
+INSERT INTO Type_Dosen VALUES
+(1, 'T001', 'Tetap'),
+(2, 'T002', 'Honorer'),
+(3, 'T003', 'Expertise');
+
+INSERT INTO Dosen VALUES
+(1, 'D001', 'Prof. Dr. Retno Wahyuningsih', 'J001', 'T002'),
+(2, 'D002', 'Prof. Roy M. Sutikno', 'J002', 'T001'),
+(3, 'D003', 'Prof. Hendri A. Verburgh', 'J003', 'T002'),
+(4, 'D004', 'Prof. Risma Suparwata', 'J004', 'T002'),
+(5, 'D005', 'Prof. Amir Sjarifuddin Madjid, MM, MA', 'J005', 'T001');
+
+INSERT INTO Nilai VALUES
+(1, 'M004', 'U0001', 90),
+(2, 'M001', 'U0001', 80),
+(3, 'M002', 'U0003', 85),
+(4, 'M004', 'U0002', 95),
+(5, 'M005', 'U0005', 70);
+
+
+
+
+SELECT * FROM Jurusan;
+SELECT * FROM Agama;
+SELECT * FROM Mahasiswa;
+SELECT * FROM Ujian;
+SELECT * FROM Type_Dosen;
+SELECT * FROM Dosen;
+SELECT * FROM Nilai;
+
+SELECT Mahasiswa.Kode_Mahasiswa AS Kode_Mahasiswa, Nama_Mahasiswa, Jurusan.Nama_jurusan AS Nama_Jurusan, Agama.Deskripsi AS Agama
+FROM Mahasiswa
+INNER JOIN Jurusan ON Mahasiswa.Kode_jurusan = Jurusan.Kode_Jurusan
+INNER JOIN Agama ON Mahasiswa.Kode_Agama = Agama.Kode_Agama
+WHERE Kode_Mahasiswa = 'M001';
+
+SELECT M.Kode_Mahasiswa, Nama_Mahasiswa, Alamat, Deskripsi as Agama, Nama_Jurusan, Status_Jurusan
+FROM Mahasiswa as M
+INNER JOIN Jurusan as J ON M.Kode_Jurusan = J.Kode_Jurusan
+INNER JOIN Agama as A ON M.Kode_Agama = A.Kode_Agama
+WHERE Status_Jurusan = 'Non Aktif';
+
+SELECT M.kode_Mahasiswa, nama_mahasiswa, Alamat, Deskripsi As Agama, nama_jurusan, Status_jurusan
+FROM Mahasiswa AS M
+INNER JOIN Jurusan AS J ON M.Kode_jurusan = J.Kode_jurusan
+INNER JOIN Agama as A ON M.Kode_Agama = A.kode_Agama
+WHERE Status_jurusan ='Aktif';
+
+
+SELECT Mahasiswa.kode_mahasiswa, nama_mahasiswa, nama_jurusan, nama_ujian , nilai, status_ujian
+From Mahasiswa
+INNER JOIN Jurusan ON Mahasiswa.kode_jurusan = Jurusan.kode_jurusan
+INNER JOIN Nilai ON Mahasiswa.Kode_mahasiswa = Nilai.Kode_Mahasiswa
+INNER Join Ujian ON Nilai.Kode_ujian = Ujian.kode_ujian
+Where nilai > 80 AND Status_ujian = 'Aktif';
+
+SELECT M.Kode_Mahasiswa, Nama_Mahasiswa, Alamat, Deskripsi as Agama, Nama_Jurusan, Nama_Ujian, Nilai, Status_Ujian
+FROM Mahasiswa as M
+INNER JOIN Jurusan as J ON M.Kode_Jurusan = J.Kode_Jurusan
+INNER JOIN Agama as A ON M.Kode_Agama = A.Kode_Agama
+INNER JOIN Nilai as N ON M.Kode_Mahasiswa = N.Kode_Mahasiswa
+INNER JOIN Ujian as U ON N.Kode_Ujian = U.Kode_Ujian
+WHERE Nilai > 80 AND Status_Ujian = 'Aktif';
+
+
+SELECT * 
+FROM Jurusan
+WHERE Nama_jurusan LIKE '%Sistem%';
+
+
+-- SELECT Mahasiswa.Kode_mahasiswa, Nama_jurusan, kode_ujian, nilai
+-- FROM Mahasiswa
+-- INNER JOIN Jurusan ON Mahasiswa.kode_mahasiswa = jurusan_kode_mahasiwa
+-- INNER JOIN Nilai ON Mahasiswa.Kode_mahasiswa = Nilai.kode_Mahaiswa
+-- INNER Join Ujian ON Mahasiswa.Kode_ujian = Ujian.Kode_ujian
+-- WHERE Ujian > 1;
+
+SELECT Mahasiswa.Kode_Mahasiswa as Kode_Mahasiswa, Nama_Mahasiswa
+FROM Mahasiswa
+INNER JOIN Nilai ON Mahasiswa.Kode_Mahasiswa = Nilai.Kode_Mahasiswa
+GROUP BY Mahasiswa.Kode_mahasiswa
+HAVING COUNT(Mahasiswa.Kode_mahasiswa) > 1;
+
+SELECT Mahasiswa.Kode_Mahasiswa, Nama_mahasiswa, Nama_jurusan, Agama.Deskripsi AS Agama, Nama_Dosen, Status_jurusan, Type_Dosen AS Deskripsi
+FROM Mahasiswa
+INNER JOIN Jurusan ON Mahasiswa.kode_jurusan = Jurusan.Kode_jurusan
+INNER JOIN Agama ON Mahasiswa.kode_agama=Agama.Kode_agama
+INNER JOIN DOSEN ON Jurusan.kode_jurusan = Dosen.kode_jurusan
+INNER JOIN Type_Dosen ON Dosen.kode_type_Dosen = Type_Dosen.Kode_type_Dosen
+WHERE Mahasiswa.Kode_Mahasiswa = 'M001';
+
+SELECT M.Kode_Mahasiswa, Nama_Mahasiswa, Nama_Jurusan, A.Deskripsi as Agama, Nama_Dosen, Status_Jurusan, T.Deskripsi as Deskripsi
+FROM Mahasiswa as M
+INNER JOIN Jurusan as J ON M.Kode_Jurusan = J.Kode_Jurusan
+INNER JOIN Agama as A ON M.Kode_Agama = A.Kode_Agama
+INNER JOIN Dosen as D ON J.Kode_Jurusan = D.Kode_Jurusan
+INNER JOIN Type_Dosen as T ON D.Kode_Type_Dosen = T.Kode_Type_Dosen
+WHERE M.Kode_Mahasiswa = 'M001';
+
+SELECT M.Kode_Mahasiswa, Nama_Mahasiswa, Nama_Jurusan, A.Deskripsi as Agama, Nama_Dosen, Status_Jurusan, T.Deskripsi as Deskripsi
+FROM Mahasiswa as M
+INNER JOIN Jurusan as J ON M.Kode_Jurusan = J.Kode_Jurusan
+INNER JOIN Agama as A ON M.Kode_Agama = A.Kode_Agama
+INNER JOIN Dosen as D ON J.Kode_Jurusan = D.Kode_Jurusan
+INNER JOIN Type_Dosen as T ON D.Kode_Type_Dosen = T.Kode_Type_Dosen
+WHERE M.Kode_Mahasiswa = 'M001';
+
+SELECT M.Kode_Mahasiswa, Nama_Mahasiswa, Alamat, Deskripsi as Agama, Nama_Jurusan, Nama_Ujian, Nilai
+FROM Mahasiswa as M
+LEFT JOIN Jurusan as J ON M.Kode_Jurusan = J.Kode_Jurusan
+LEFT JOIN Agama as A ON M.Kode_Agama = A.Kode_Agama
+LEFT JOIN Nilai as N ON M.Kode_Mahasiswa = N.Kode_Mahasiswa
+LEFT JOIN Ujian as U ON N.Kode_Ujian = U.Kode_Ujian
+ORDER BY M.Kode_Mahasiswa;

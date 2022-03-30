@@ -1,0 +1,58 @@
+no.1
+SELECT 
+CONCAT(first_name,' ',last_name)
+AS nama_karyawan,
+(SUM(TR.end_date-TR.start_date)+
+SUM(LR.end_date-LR.start_date))/2
+AS lama_hari_tidak_di_kantor
+FROM biodata AS B
+INNER JOIN employee AS E ON B.id = E.biodata_id
+INNER JOIN leave_request AS LR ON E.id = LR.employee_id
+INNER JOIN travel_request AS TR ON E.id = TR.employee_id
+WHERE E.id=1
+GROUP BY nama_karyawan;
+
+no.2
+SELECT 
+CONCAT(first_name,' ',last_name)
+AS nama_karyawan,
+SUM (end_date-start_date) AS cuti_dalam_hari
+FROM biodata AS B
+INNER JOIN employee AS E ON B.id=E.biodata_id
+INNER JOIN leave_request AS LR ON E.id= LR.employee_id
+GROUP BY nama_karyawan;
+
+n0.3
+SELECT
+CASE WHEN marital_status = 'TRUE' THEN 'Menikah' ELSE 'Tidak menikah' END AS status,
+COUNT (marital_status) AS jumlah
+FROM biodata AS B
+INNER JOIN employee AS E ON B.id=E.biodata_id
+GROUP BY marital_status;
+
+no.4
+SELECT
+CONCAT(first_name,' ',last_name)
+AS nama_karyawan,
+(ROUND(AVG(regular_quota)))-
+SUM(end_date-start_date)AS sisa_cuti
+FROM biodata AS B
+INNER JOIN employee AS E ON B.id=E.biodata_id
+INNER JOIN leave_request AS LR ON E.id = LR.employee_id
+INNER JOIN employee_leave AS EL ON LR.employee_id = EL.employee_id
+WHERE period = '2020'
+GROUP BY nama_karyawan;
+
+no.5
+SELECT
+CONCAT(first_name,' ',last_name)
+AS nama_karyawan,
+(ROUND(AVG(regular_quota)))-
+SUM(end_date-start_date)AS sisa_cuti
+FROM biodata AS B
+INNER JOIN employee AS E ON B.id=E.biodata_id
+INNER JOIN leave_request AS LR ON E.id = LR.employee_id
+INNER JOIN employee_leave AS EL ON LR.employee_id = EL.employee_id
+WHERE period = '2020'
+GROUP BY nama_karyawan;
+n0.6
